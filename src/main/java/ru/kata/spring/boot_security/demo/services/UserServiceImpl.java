@@ -6,11 +6,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -26,12 +28,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = findByUsername( username );
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> user = findByUsername(email);
 
         if (user.isEmpty()) {
             throw new UsernameNotFoundException( "User not found" );
         }
+
         return user.get();
     }
 
@@ -42,8 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername( username );
+    public Optional<User> findByUsername(String email) {
+        return userRepository.findByUsername(email);
     }
 
 
@@ -55,16 +58,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void save(User user) {
-        user.setPassword( new BCryptPasswordEncoder().encode( user.getPassword() ) );
-        user.setRoles( user.getRoles() );
+        user.setPassword( new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRoles(user.getRoles());
         userRepository.save( user );
     }
 
     @Transactional
     @Override
     public void update(int id, User updatedUser) {
-        updatedUser.setId( id );
-        updatedUser.setPassword( new BCryptPasswordEncoder().encode( updatedUser.getPassword() ) );
+        updatedUser.setId(id);
+        updatedUser.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
         updatedUser.setRoles( updatedUser.getRoles() );
         userRepository.save( updatedUser );
     }
