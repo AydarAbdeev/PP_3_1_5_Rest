@@ -23,8 +23,8 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (userService.findByUsername(user.getUsername()).isPresent()) {
-            errors.rejectValue("username", "", "User is exist");
+        if (userService.findByUsername(user.getEmail()).isPresent()) {
+            errors.rejectValue("email", "", "User is exist");
         }
     }
 }

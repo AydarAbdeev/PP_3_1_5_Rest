@@ -47,7 +47,7 @@ public class User implements UserDetails {
     @NotEmpty(message = "Username is empty")
     @Size(min = 3, max = 30, message = "Username size from 3 to 30")
     @Column()
-    private String username;
+    private String email;
 
     @NotEmpty(message = "Password is empty")
     @Size(min = 3, max = 100, message = "Password size from 3 to 30")
@@ -66,11 +66,11 @@ public class User implements UserDetails {
 
     }
 
-    public User(String name, String surname, int age, String username, String password) {
+    public User(String name, String surname, int age, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -121,12 +121,17 @@ public class User implements UserDetails {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -149,8 +154,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     public Set<Role> getRoles() {

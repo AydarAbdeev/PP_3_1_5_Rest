@@ -23,6 +23,8 @@ public class Role implements GrantedAuthority {
     @Column
     private String name;
 
+    private final String ROLE_PREFIX = "ROLE_";
+
     public Role() {
     }
 
@@ -53,6 +55,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getName();
+        return ROLE_PREFIX + getName();
     }
 }

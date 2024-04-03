@@ -29,15 +29,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/login").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
-                .permitAll()
+                    .formLogin().loginPage("/login")
+                    .loginProcessingUrl("/perform-login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .successHandler(successUserHandler)
+                    .failureUrl("/login?error")
+                    .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/" )
-                .permitAll();
+                    .logout().logoutSuccessUrl("/login" )
+                    .permitAll();
     }
 
     @Bean

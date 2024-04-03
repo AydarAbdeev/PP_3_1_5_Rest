@@ -17,6 +17,8 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -36,48 +38,29 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String homePageAdmin(Model model) {
+    public String showAdminPanel(Model model, Principal principal) {
+        model.addAttribute("admin", userService.findByUsername(principal.getName()));
         model.addAttribute("users", userService.findAll());
-        return "admin/admin";
-    }
-    @GetMapping("/{id}")
-    public String userId(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        return "admin/user";
-    }
-
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user")User user, Model model) {
         model.addAttribute("roles", roleService.allRole());
-        return "admin/new";
+        return "admin";
     }
 
-    @PostMapping()
-    public String create(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
+    @PostMapping("")
+    public String create(@ModelAttribute("newUser") @Valid User user,
+                         BindingResult bindingResult,
+                         @ModelAttribute("formRoles") List<String> formRoles) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "admin/new";
+            return "admin";
         }
-        userService.save(user);
+        userService.save(user, formRoles);
         return "redirect:/admin";
     }
 
-    @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable("id") int id){
-        model.addAttribute("user",userService.findOne(id));
-        model.addAttribute("roles", roleService.allRole());
-        return "admin/edit";
-    }
-
-    @PatchMapping("/{id}")
+    @PatchMapping("/edit")
     public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "admin/edit";
-        }
-        userService.update(id, user);
+                         @ModelAttribute("formRoles") List<String> formRoles) {
+        userService.update(user, formRoles);
         return "redirect:/admin";
     }
 
