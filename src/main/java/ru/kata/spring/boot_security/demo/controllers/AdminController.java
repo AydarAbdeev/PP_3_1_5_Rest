@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
@@ -48,7 +49,7 @@ public class AdminController {
     @PostMapping("")
     public String create(@ModelAttribute("newUser") @Valid User user,
                          BindingResult bindingResult,
-                         @ModelAttribute("formRoles") List<String> formRoles) {
+                         @RequestParam(value = "formRoles", required = false) List<String> formRoles) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "admin";
@@ -59,7 +60,7 @@ public class AdminController {
 
     @PatchMapping("/edit")
     public String update(@ModelAttribute("user") @Valid User user,
-                         @ModelAttribute("formRoles") List<String> formRoles) {
+                         @RequestParam(value = "formRoles", required = false) List<String> formRoles) {
         userService.update(user, formRoles);
         return "redirect:/admin";
     }

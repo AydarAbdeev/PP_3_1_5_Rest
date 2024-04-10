@@ -56,12 +56,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user, List<String> formRoles) {
         user.setPassword( new BCryptPasswordEncoder().encode(user.getPassword()));
-        if (formRoles.isEmpty()) {
+        if (formRoles == null) {
             user.setRoles( Collections.singleton(new Role("USER")));
         } else {
             user.setRoles(roleService.findFormRole(formRoles));
         }
-        userRepository.save( user );
+        userRepository.save(user);
     }
 
     @Transactional
@@ -71,7 +71,9 @@ public class UserServiceImpl implements UserService {
         if (!user.getPassword().equals( updatedUser.getPassword() )) {
             updatedUser.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
         }
-        user.setRoles(roleService.findFormRole(formRoles));
+        if (formRoles != null) {
+            user.setRoles( roleService.findFormRole(formRoles) );
+        }
         userRepository.save(user);
     }
 
