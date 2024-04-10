@@ -16,6 +16,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -48,33 +49,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(int id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public Optional<User> findByUsername(String email) {
         return userRepository.findByUsername(email);
     }
 
     @Transactional
     @Override
-    public void save(User user, List<String> formRoles) {
+    public void save(User user) {
         user.setPassword( new BCryptPasswordEncoder().encode(user.getPassword()));
-        if (formRoles == null) {
-            user.setRoles( Collections.singleton(new Role("USER")));
-        } else {
-            user.setRoles(roleService.findFormRole(formRoles));
+        if (user.getRoles() == null) {
+            user.setRoles( Collections.singleton( (Role) roleService.findFormRole( Collections.singletonList( "USER" ) ) ));
         }
         userRepository.save(user);
     }
 
     @Transactional
     @Override
-    public void update(User updatedUser, List<String> formRoles) {
-        User user = findByUsername(updatedUser.getEmail()).get();
+    public void update(User updatedUser, int id) {
+        User user = findById(id);
+
+        if (updatedUser.getRoles().isEmpty()) {
+            updatedUser.setRoles(user.getRoles());
+        }
         if (!user.getPassword().equals( updatedUser.getPassword() )) {
             updatedUser.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
         }
-        if (formRoles != null) {
-            user.setRoles( roleService.findFormRole(formRoles) );
-        }
-        userRepository.save(user);
+        userRepository.save(updatedUser);
     }
 
     @Transactional

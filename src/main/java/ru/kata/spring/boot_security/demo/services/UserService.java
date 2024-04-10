@@ -10,8 +10,10 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
     UserDetails loadUserByUsername(String email);
     List<User> findAll();
+    User findById(int id);
     Optional<User> findByUsername(String username);
-    void save(User user, List<String> formRoles);
-    void update(User updatedUser, List<String> formRoles);
+    void save(User user);
+    void update(User updatedUser, int id);
     void delete(int id);
+
 }
