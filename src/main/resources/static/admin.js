@@ -2,7 +2,6 @@ const API = 'http://localhost:8080/api/admin';
 const adminHeader = document.getElementById("navbar-header");
 const usersTable = document.getElementById("table-users");
 const adminInfo = document.getElementById("admin-info");
-const modalEdit = document.getElementById("editUser");
 
 
 
@@ -82,14 +81,15 @@ function showUpdatedUser(id) {
             document.getElementById('emailEdit').value = user.email;
             document.getElementById('passwordEdit').value = user.password;
             document.getElementById('editRoles').value = user.roles;
-            updateUser(id);
+            updateUser();
         })
         .catch((error) => console.log(error))
 }
-function updateUser(id){
-    const editElement = document.getElementById('editUser');
+function updateUser(){
+    const editElement = document.getElementById('editForm');
     editElement.addEventListener('submit', (e) => {
         e.preventDefault();
+        const userId = document.getElementById('idEdit').value;
         const rolesOptions = document.getElementById('editRoles').options;
         const selectRoles = Array.from(rolesOptions)
             .filter(o => o.selected)
@@ -98,9 +98,9 @@ function updateUser(id){
                 name: opt.text
             }))
 
-        const formEdit = new FormData(document.getElementById('editForm'));
+        const formEdit = new FormData(editElement);
         const user = {
-            id: id,
+            id: userId,
             name: formEdit.get('nameEdit'),
             surname: formEdit.get('surnameEdit'),
             age: formEdit.get('ageEdit'),
@@ -109,7 +109,7 @@ function updateUser(id){
             roles: selectRoles
         }
 
-        fetch(API + "/" + id, {
+        fetch(API + "/" + userId, {
             method: "PATCH",
             body: JSON.stringify(user),
             headers: {
@@ -123,8 +123,8 @@ function updateUser(id){
                 }
             })
             .then(() => {
+                document.getElementById('editCloseForm').click();
                 getUsers();
-                modalEdit.style.display='';
             })
             .catch((error) => console.log(error))
     })
@@ -143,17 +143,18 @@ function showDeletedUser(id) {
             document.getElementById('deleteEmail').value = user.email;
             document.getElementById('deletePassword').value = user.password;
             document.getElementById('deleteRoles').value = user.roles;
-            deletedUser(id);
+            deletedUser();
         })
         .catch((error) => console.log(error))
 }
 
 
 
-function deletedUser(id) {
+function deletedUser() {
     const deleteElement = document.getElementById('deleteForm');
     deleteElement.addEventListener('submit', (e) => {
         e.preventDefault();
+        const deleteId = document.getElementById('deleteId').value;
         const rolesOptions = document.getElementById('deleteRoles').options;
         const selectRoles = Array.from(rolesOptions)
             .filter(o => o.selected)
@@ -164,7 +165,7 @@ function deletedUser(id) {
 
         const formEdit = new FormData(deleteElement);
         const user = {
-            id: id,
+            id: deleteId,
             name: formEdit.get('deleteName'),
             surname: formEdit.get('deleteSurname'),
             age: formEdit.get('deleteAge'),
@@ -173,7 +174,7 @@ function deletedUser(id) {
             roles: selectRoles
         }
 
-        fetch(API + "/" + id, {
+        fetch(API + "/" + deleteId, {
             method: "DELETE",
             body: JSON.stringify(user),
             headers: {
@@ -187,8 +188,8 @@ function deletedUser(id) {
                 }
             })
             .then(() => {
+                document.getElementById('deleteClose').click();
                 getUsers();
-                $('#deleteUser').modal('hide');
             })
             .catch((error) => console.log(error))
     })

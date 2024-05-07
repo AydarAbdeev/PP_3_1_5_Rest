@@ -152,28 +152,28 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body modal-body-edit" id="editUserBody">
-                <form id="editForm">
-                    <figure class="text-center pt-2"><h6>ID</h6></figure>
-                    <input class="form-control text-center m-auto" type="text" id="idEdit" name="idEdit" aria-label="disabledID" disabled style="width: 290px;">
-                    <figure class="text-center pt-2"><h6>First name</h6></figure>
-                    <input class="form-control text-center m-auto" type="text" id="nameEdit" name="nameEdit" aria-label="editName" style="width: 290px;">
-                    <figure class="text-center  pt-2"><h6>Last name</h6></figure>
-                    <input class="form-control text-center m-auto" type="text" id="surnameEdit" name="surnameEdit" aria-label="editSurname" style="width: 290px;">
-                    <figure class="text-center pt-2"><h6>Age</h6></figure>
-                    <input class="form-control text-center m-auto" type="text" id="ageEdit" name="ageEdit" aria-label="editAge" style="width: 290px;">
-                    <figure class="text-center pt-2"><h6>Email</h6></figure>
-                    <input class="form-control text-center m-auto" type="email" id="emailEdit" name="emailEdit" aria-label="editEmail" style="width: 290px;">
-                    <figure class="text-center pt-2"><h6>Password</h6></figure>
-                    <input class="form-control text-center m-auto" type="password" id="passwordEdit" name="passwordEdit" aria-label="editPassword" style="width: 290px;">
-                    <figure class="text-center pt-2"><h6>Role</h6></figure>
-                    <select class="form-select text-center m-auto" style="width: 290px; height: 60px;" id="editRoles" name="editRoles" multiple aria-label="editRoles">
-                        <option value="1">ADMIN</option>
-                        <option value="2">USER</option>
-                    </select>
-                    <div class="modal-footer">
-                        <button type="button" id="editCloseForm" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                    </div>
+                <form id="editForm" autocomplete="off">
+                <figure class="text-center pt-2"><h6>ID</h6></figure>
+                <input class="form-control m-auto" autocomplete="off" type="text" id="idEdit" name="idEdit" aria-label="disabledID" disabled style="width: 290px;">
+                <figure class="text-center pt-2"><h6>First name</h6></figure>
+                <input class="form-control m-auto" autocomplete="off" type="text" id="nameEdit" name="nameEdit" aria-label="editName" style="width: 290px;">
+                <figure class="text-center  pt-2"><h6>Last name</h6></figure>
+                <input class="form-control m-auto" autocomplete="off" type="text" id="surnameEdit" name="surnameEdit" aria-label="editSurname" style="width: 290px;">
+                <figure class="text-center pt-2"><h6>Age</h6></figure>
+                <input class="form-control m-auto" autocomplete="off" type="text" id="ageEdit" name="ageEdit" aria-label="editAge" style="width: 290px;">
+                <figure class="text-center pt-2"><h6>Email</h6></figure>
+                <input class="form-control m-auto" autocomplete="off" type="email" id="emailEdit" name="emailEdit" aria-label="editEmail" style="width: 290px;">
+                <figure class="text-center pt-2"><h6>Password</h6></figure>
+                <input class="form-control m-auto" autocomplete="off" type="password" id="passwordEdit" name="passwordEdit" aria-label="editPassword" style="width: 290px;">
+                <figure class="text-center pt-2"><h6>Role</h6></figure>
+                <select class="form-select m-auto" autocomplete="off" style="width: 290px; height: 60px;" id="editRoles" name="editRoles" multiple aria-label="editRoles">
+                    <option value="1">ADMIN</option>
+                    <option value="2">USER</option>
+                </select>
+                <div class="modal-footer">
+                    <button type="button" id="editCloseForm" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
                 </form>
             </div>
         </div>
@@ -208,7 +208,7 @@
                         <option value="2">USER</option>
                     </select>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" id="deleteClose" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger btn-delete">Delete</button>
                     </div>
                 </form>
