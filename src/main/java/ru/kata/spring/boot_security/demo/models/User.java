@@ -50,7 +50,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotEmpty(message = "Password is empty")
-    @Size(min = 3, max = 100, message = "Password size from 3 to 30")
+    @Size(min = 3, max = 30, message = "Password size from 3 to 30")
     @Column()
     private String password;
 
